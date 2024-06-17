@@ -9,3 +9,21 @@ http://localhost:8000/
 
 senha jenkins
     639d799cb5e94e21b30d05167664981d
+
+
+
+Construido Build no jenkins
+#!/bin/bash
+docker Build -t backend .
+
+IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAdress}}{{end}} postgres)
+
+docker run --name tasks --rm -e DATABASE_HOST="$IP" -p 8001:8001 backend
+
+
+#!/bin/bash
+docker build -t backend .
+
+IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' <DB_CONTAINER>)
+
+docker run --name tasks --rm -e DATABASE_HOST="$IP" -d -p 8001:8001 backend
